@@ -5,8 +5,8 @@
 Clone this repository:
 
 ```
-git clone <repository-url>
-cd <project-directory>
+git clone https://github.com/rishigautam5474/RideSphere-backend.git
+cd RideSphere-backend
 ```
 
 ### Install dependencies:
