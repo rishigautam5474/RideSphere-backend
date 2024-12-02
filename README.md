@@ -39,32 +39,42 @@ Description: Registers a new user.
 
 Request Body:
 
-```{
+```
+{
 "firstName": "John",
 "lastName": "Doe",
 "email": "john.doe@example.com",
 "password": "your_password"
-}```
+}
+```
 
 Response:
 
-``201: User successfully created.
-400: Missing or invalid input.```
+```
+201: User successfully created.
+400: Missing or invalid input.
+```
 
 ### 2. Login User
 
 Endpoint: /api/users/login
+
 Method: POST
+
 Description: Logs in an existing user.
+
 Request Body:
 
-```{
+```
+{
 "email": "john.doe@example.com",
 "password": "your_password"
-}```
+}
+```
 
 Response:
 
-```200: User successfully logged in with a JWT token.
+```
+200: User successfully logged in with a JWT token.
 400: Invalid credentials or missing fields.```
 ````
