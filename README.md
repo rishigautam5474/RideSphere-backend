@@ -34,7 +34,9 @@ npm start
 ### 1. Register User
 
 Endpoint: ``/api/admin/users/register``
+
 Method: ``POST``
+
 Description: Registers a new user.
 
 Request Body:
@@ -82,7 +84,9 @@ Response:
 ### 3. Access Profile
 
 Endpoint: ``/api/admin/users/profile``
+
 Method: ``GET``
+
 Description: Fetches the profile information of the authenticated user.
 
 Headers:
@@ -101,7 +105,9 @@ Response:
 
 ### 4. Logout
 Endpoint: ``/api/admin/users/logout``
+
 Method: ``POST``
+
 Description: Logs out the user by blacklisting the provided JWT token.
 
 Headers:
