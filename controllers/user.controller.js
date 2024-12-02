@@ -137,12 +137,16 @@ const getUserProfile = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
+  try{
   res.clearCookie("token");
   const headers = req?.headers?.["authorization"];
   const token = req?.cookies?.token || req?.headers?.split(" ")[1];
   await BlacklistedToken.create({ token });
 
   return res.status(200).json({status: "success", message: "User logout successfully"})
+  } catch(error) {
+    return res.status(500).json({ status: "error", message: 'Server error' });
+  }
 };
 
 export { createNewUser, loginUser, getUserProfile, logoutUser };

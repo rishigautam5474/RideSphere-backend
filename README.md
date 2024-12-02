@@ -33,10 +33,8 @@ npm start
 
 ### 1. Register User
 
-Endpoint: /api/admin/users/register,
-
-Method: POST,
-
+Endpoint: ``/api/admin/users/register``
+Method: ``POST``
 Description: Registers a new user.
 
 Request Body:
@@ -59,10 +57,8 @@ Response:
 
 ### 2. Login User
 
-Endpoint: /api/admin/users/login
-
-Method: POST
-
+Endpoint: ``/api/admin/users/login``
+Method: ``POST``
 Description: Logs in an existing user.
 
 Request Body:
@@ -78,5 +74,44 @@ Response:
 
 ```
 200: User successfully logged in with a JWT token.
-400: Invalid credentials or missing fields.```
+400: Invalid credentials or missing fields.
 ````
+
+### 3. Access Profile
+
+Endpoint: ``/api/admin/users/profile``
+Method: ``GET``
+Description: Fetches the profile information of the authenticated user.
+
+Headers:
+
+```
+Authorization: Bearer <your-jwt-token>
+```
+
+Response:
+
+```
+200: Returns the user profile information (excluding password).
+401: Token is invalid, expired, or missing.
+404: User not found.
+```
+
+### 4. Logout
+Endpoint: ``/api/admin/users/logout``
+Method: ``POST``
+Description: Logs out the user by blacklisting the provided JWT token.
+
+Headers:
+
+```
+Authorization: Bearer <your-jwt-token>
+```
+
+Response:
+
+```
+200: Successfully logged out.
+400: Token is missing.
+401: Token is invalid or already blacklisted.
+```
