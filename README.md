@@ -32,8 +32,11 @@ npm start
 ### 1. Register User
 
 Endpoint: /api/users/register,
+
 Method: POST,
+
 Description: Registers a new user.
+
 Request Body:
 
 ```{
