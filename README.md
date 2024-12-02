@@ -17,9 +17,11 @@ npm install
 
 ### Create a .env file in the root directory and configure the following variables:
 
+```
 JWT_SECRET_KEY=your_secret_key
 EXPIRE_DAY=1d
 MONGO_URI=your_mongo_connection_string
+```
 
 Start the server:
 
