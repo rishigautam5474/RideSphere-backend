@@ -11,8 +11,7 @@ cd <project-directory>
 
 ### Install dependencies:
 
-```npm install
-```
+```npm install```
 
 ### Create a .env file in the root directory and configure the following variables:
 
@@ -35,7 +34,7 @@ Method: POST
 Description: Registers a new user.
 Request Body:
 
-````{
+```{
 "firstName": "John",
 "lastName": "Doe",
 "email": "john.doe@example.com",
