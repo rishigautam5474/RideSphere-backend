@@ -33,7 +33,7 @@ npm start
 
 ### 1. Register User
 
-Endpoint: /api/users/register,
+Endpoint: /api/admin/users/register,
 
 Method: POST,
 
@@ -59,7 +59,7 @@ Response:
 
 ### 2. Login User
 
-Endpoint: /api/users/login
+Endpoint: /api/admin/users/login
 
 Method: POST
 

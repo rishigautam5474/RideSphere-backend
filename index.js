@@ -4,11 +4,14 @@ import express from "express";
 import cors from "cors";
 import connectToDb from "./db/db.js";
 import userRouter from "./routes/user.route.js"
+import cookieParser from "cookie-parser"
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
 // Connection MongoDb
 connectToDb(process.env.MONGOOSE_URI)
@@ -23,7 +26,7 @@ connectToDb(process.env.MONGOOSE_URI)
 const PORT = process.env.PORT || 3000;
 
 // All Router
-app.use('/api/users', userRouter)
+app.use('/api/admin/users', userRouter)
 
 app.get("/", (req, res) => {
   res.send("Welcome Ridesphere");
