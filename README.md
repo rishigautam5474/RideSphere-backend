@@ -11,7 +11,9 @@ cd <project-directory>
 
 ### Install dependencies:
 
-```npm install```
+```
+npm install
+```
 
 ### Create a .env file in the root directory and configure the following variables:
 
@@ -29,8 +31,8 @@ npm start
 
 ### 1. Register User
 
-Endpoint: /api/users/register
-Method: POST
+Endpoint: /api/users/register,
+Method: POST,
 Description: Registers a new user.
 Request Body:
 
