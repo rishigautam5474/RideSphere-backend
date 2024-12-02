@@ -58,7 +58,9 @@ Response:
 ### 2. Login User
 
 Endpoint: ``/api/admin/users/login``
+
 Method: ``POST``
+
 Description: Logs in an existing user.
 
 Request Body:
