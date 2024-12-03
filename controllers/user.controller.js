@@ -16,6 +16,12 @@ const createNewUser = async (req, res) => {
       .json({ status: "error", message: "Required all field" });
   }
 
+  const isUserAlreadyExist = await User.findOne({ email: body.email });
+
+  if(isUserAlreadyExist) {
+    return res.status(400).json({status: "error", message: "User already exist"})
+  }
+
   const user = await User.create({
     firstName: body.firstName,
     lastName: body.lastName,
@@ -96,12 +102,17 @@ const loginUser = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user._id, firstName: user.firstName, lastName: user.lastName },
+      {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+      },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: process.env.EXPIRE_DAY || "1d" } // Default to 1 day if not set
+      { expiresIn: process.env.EXPIRE_DAY || "24h" } // Default to 1 day if not set
     );
 
-    // res.cookie("token", token);
+    res.cookie("token", token);
     // Return success response
     return res.status(200).json({
       status: "success",
@@ -138,11 +149,12 @@ const getUserProfile = async (req, res) => {
 
 const logoutUser = async (req, res) => {
   try {
-    res.clearCookie("token");
     const headers = req?.headers?.["authorization"];
     const token = req?.cookies?.token || req?.headers?.split(" ")[1];
     await BlacklistedToken.create({ token });
-
+    
+    res.clearCookie("token");
+    
     return res
       .status(200)
       .json({ status: "success", message: "User logout successfully" });

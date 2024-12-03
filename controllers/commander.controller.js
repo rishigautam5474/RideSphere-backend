@@ -1,3 +1,4 @@
+import BlacklistedToken from "../model/blacklistingToken.model.js";
 import Commander from "../model/commander.model.js";
 import jwt from "jsonwebtoken";
 
@@ -22,6 +23,13 @@ const createCommander = async (req, res) => {
       return res
         .status(400)
         .json({ status: "error", message: "All field are required" });
+    }
+
+    const isCommanderAlreadyExist = await Commander.findOne({ email });
+    if (isCommanderAlreadyExist) {
+      return res
+        .status(400)
+        .json({ status: "error", message: "Commander already exist" });
     }
     const commander = await Commander.create({
       firstName,
@@ -72,19 +80,23 @@ const loginCommander = async (req, res) => {
       id: commander._id,
       firstName: commander.firstName,
       lastName: commander.lastName,
+      role: commander.role,
     },
     process.env.JWT_SECRET_KEY,
-    { expiresIn: process.env.EXPIRE_DAY || "1d" }
+    { expiresIn: process.env.EXPIRE_DAY || "24h" }
   );
   //   console.log(token);
 
-  res.cookie("token", token)
+  res.cookie("token", token);
 
   return res.status(200).json({
     status: "success",
     message: "Commander login successfully",
     token,
-    commanderInfo: {id: commander._id, name: `${[commander.firstName, commander.lastName].join(" ")}`},
+    commanderInfo: {
+      id: commander._id,
+      name: `${[commander.firstName, commander.lastName].join(" ")}`,
+    },
   });
 };
 
@@ -95,9 +107,30 @@ const getAllCommander = async (req, res) => {
       .status(400)
       .json({ status: "error", message: "Commander not found" });
   }
-  return res
-    .status(200)
-    .json({ status: "success", message: "All user access", commanders: commander });
+  return res.status(200).json({
+    status: "success",
+    message: "All user access",
+    commanders: commander,
+  });
 };
 
-export { createCommander, loginCommander, getAllCommander };
+const logoutCommander = async (req, res) => {
+  try{
+  // const commander = await Commander.
+  const headers = req?.headers?.["authorization"];
+  const token = req?.cookies?.token || req?.headers?.split(" ")[1];
+  // console.log(token, "+++++++++++");
+  await BlacklistedToken.create({ token });
+  
+  res.clearCookie("token");
+
+  return res
+    .status(200)
+    .json({ status: "success", message: "Commander logout successfully" });
+  }
+  catch(error) {
+    return res.status(500).json({status: "error", message: "Server error"})
+  }
+};
+
+export { createCommander, loginCommander, getAllCommander, logoutCommander };

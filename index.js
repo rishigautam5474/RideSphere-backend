@@ -3,8 +3,8 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import connectToDb from "./db/db.js";
-import userRouter from "./routes/user.route.js"
-import commanderRouter from "./routes/commander.route.js"
+import userRoutes from "./routes/user.route.js"
+import commanderRoutes from "./routes/commander.route.js"
 import cookieParser from "cookie-parser"
 const app = express();
 
@@ -27,8 +27,8 @@ connectToDb(process.env.MONGOOSE_URI)
 const PORT = process.env.PORT || 3000;
 
 // All Router
-app.use('/api/admin/users', userRouter)
-app.use('/api/admin/commanders', commanderRouter)
+app.use('/api/admin/users', userRoutes)
+app.use('/api/admin/commanders', commanderRoutes)
 
 app.get("/", (req, res) => {
   res.send("Welcome Ridesphere");
