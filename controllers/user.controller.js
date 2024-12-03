@@ -66,7 +66,7 @@ const createNewUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req?.body;
 
     // Check if all required fields are provided
     if (!email || !password) {
@@ -101,7 +101,7 @@ const loginUser = async (req, res) => {
       { expiresIn: process.env.EXPIRE_DAY || "1d" } // Default to 1 day if not set
     );
 
-    res.cookie("token", token);
+    // res.cookie("token", token);
     // Return success response
     return res.status(200).json({
       status: "success",
@@ -137,15 +137,17 @@ const getUserProfile = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  try{
-  res.clearCookie("token");
-  const headers = req?.headers?.["authorization"];
-  const token = req?.cookies?.token || req?.headers?.split(" ")[1];
-  await BlacklistedToken.create({ token });
+  try {
+    res.clearCookie("token");
+    const headers = req?.headers?.["authorization"];
+    const token = req?.cookies?.token || req?.headers?.split(" ")[1];
+    await BlacklistedToken.create({ token });
 
-  return res.status(200).json({status: "success", message: "User logout successfully"})
-  } catch(error) {
-    return res.status(500).json({ status: "error", message: 'Server error' });
+    return res
+      .status(200)
+      .json({ status: "success", message: "User logout successfully" });
+  } catch (error) {
+    return res.status(500).json({ status: "error", message: "Server error" });
   }
 };
 

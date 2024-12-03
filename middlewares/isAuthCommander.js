@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
-import User from "../model/user.model.js";
 import Commander from "../model/commander.model.js";
 
-const IsAuthentication = async (req, res, next) => {
+const IsAuthCommander = async (req, res, next) => {
   const headers = req?.headers["authorization"];
   const token = req?.cookies?.token || headers?.split(" ")[1];
   // const token = headers?.split(" ")[1];
@@ -13,15 +12,15 @@ const IsAuthentication = async (req, res, next) => {
       .json({ status: "Error", message: "Unauthorized user" });
   }
 
-  const isBlacklistedUser = await User.findOne({token: token})
+  const isBlacklistedCommander = await Commander.findOne({token: token})
 
-  if(isBlacklistedUser) {
+  if(isBlacklistedCommander) {
     return res.status(401).json({status: "error", message: "Token is blacklisted. Please log in again."})
   }
 
   try {
     const decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    req.user = decode.id;
+    req.Commander = decode.id;
 
     next();
   } catch (error) {
@@ -32,4 +31,4 @@ const IsAuthentication = async (req, res, next) => {
   }
 };
 
-export default IsAuthentication;
+export default IsAuthCommander;

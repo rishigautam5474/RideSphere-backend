@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs"
 
 const commanderSchema = new mongoose.Schema({
-    firtName: {
+    firstName: {
         type: String,
         required : true,
         minlength: [3, "Fisrt Name must be at least 3 characters long"]
@@ -16,6 +17,10 @@ const commanderSchema = new mongoose.Schema({
         required: true,
         unique: true,
         minlength: [3, "Email must be at least 3 characters long"]
+    },
+    password: {
+        type: String,
+        required: true,
     },
     soketId: {
         type: String
@@ -36,7 +41,8 @@ const commanderSchema = new mongoose.Schema({
         },
         capacity: {
             type: Number,
-            required: true
+            required: true,
+            min: 0
         },
         vehicleType: {
             type: String,
@@ -54,6 +60,17 @@ const commanderSchema = new mongoose.Schema({
         }
     }
 }, {timestamps: true})
+
+commanderSchema.pre('save', async function (next){
+    if(this.isModified("password")) {
+        this.password = await bcrypt.hash(this.password, 12)
+    }
+    next();
+})
+
+commanderSchema.methods.comparePassword = async function(enteredPassword) {
+    return bcrypt.compare(enteredPassword, this.password);
+}
 
 const Commander = mongoose.model("Commander", commanderSchema);
 

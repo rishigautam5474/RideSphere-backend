@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 import connectToDb from "./db/db.js";
 import userRouter from "./routes/user.route.js"
+import commanderRouter from "./routes/commander.route.js"
 import cookieParser from "cookie-parser"
 const app = express();
 
@@ -27,6 +28,7 @@ const PORT = process.env.PORT || 3000;
 
 // All Router
 app.use('/api/admin/users', userRouter)
+app.use('/api/admin/commanders', commanderRouter)
 
 app.get("/", (req, res) => {
   res.send("Welcome Ridesphere");
